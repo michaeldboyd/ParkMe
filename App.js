@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import { connect, Provider } from "react-redux";
 import actions from "./actions/toggleActions";
 import store from "./store/store";
-import ListingsListViews from './components/ListingsListViews';
+import ListingsListViews from './components/ListingsListView';
 
 class App extends React.Component {
   onPress = () => {
