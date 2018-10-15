@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import { connect, Provider } from "react-redux";
 import actions from "./actions/toggleActions";
 import store from "./store/store";
+import ListingsListViews from './components/ListingsListViews';
 
 class App extends React.Component {
   onPress = () => {
@@ -12,9 +13,7 @@ class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Is this ParkM?</Text>
-        <Button title="Click Me!" onPress={this.onPress} />
-        <Text>{this.props.isToggled ? "toggled" : "not toggled"}</Text>
+        <ListingsListViews />
       </View>
     );
   }
