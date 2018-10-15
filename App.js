@@ -12,7 +12,7 @@ class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Is this ParkMe?</Text>
+        <Text>Is this ParkM?</Text>
         <Button title="Click Me!" onPress={this.onPress} />
         <Text>{this.props.isToggled ? "toggled" : "not toggled"}</Text>
       </View>
