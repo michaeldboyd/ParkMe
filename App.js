@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import { connect, Provider } from "react-redux";
 import actions from "./actions/toggleActions";
 import store from "./store/store";
-import ListingsListViews from './components/ListingsListView';
+import ListingsListView from './components/ListingsListView';
 
 class App extends React.Component {
   onPress = () => {
@@ -13,7 +13,8 @@ class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ListingsListViews />
+      {/* <Text> HELLO WORLD!</Text> */}
+        <ListingsListView />
       </View>
     );
   }
