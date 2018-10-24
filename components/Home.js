@@ -4,7 +4,7 @@ import { connect, Provider } from "react-redux";
 import actions from "../actions/toggleActions";
 import store from "../store/store";
 
-class App extends React.Component {
+class Home extends React.Component {
   onPress = () => {
     this.props.setToggleStatus(!this.props.isToggled);
   };
@@ -46,4 +46,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(Home);
