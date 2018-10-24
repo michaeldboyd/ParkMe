@@ -2,8 +2,35 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, ScrollView, ListView, Image } from "react-native";
 import { Card, ListItem, Button, Header } from 'react-native-elements'
 import tempPhoto from '../assets/parkingTempImage.jpg';
+import ModalDropdown from 'react-native-modal-dropdown';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+import SortTabBar from './SortTabBar';
 
 const tempUsers = [
+  {
+    avatar: tempPhoto,
+    address: '499 W. Fake Lane, Provo UT, 84120',
+    street: '499 W. Fake Lane',
+    city: 'Provo, Ut',
+    zip: '84120',
+    reserved: false,
+  },
+  {
+    avatar: tempPhoto,
+    address: '499 W. Fake Lane, Provo UT, 84120',
+    street: '499 W. Fake Lane',
+    city: 'Provo, Ut',
+    zip: '84120',
+    reserved: false,
+  },
+  {
+    avatar: tempPhoto,
+    address: '499 W. Fake Lane, Provo UT, 84120',
+    street: '499 W. Fake Lane',
+    city: 'Provo, Ut',
+    zip: '84120',
+    reserved: false,
+  },
   {
     avatar: tempPhoto,
     address: '499 W. Fake Lane, Provo UT, 84120',
@@ -16,35 +43,34 @@ const tempUsers = [
 ]
 
 export default class ListingListView extends Component {
-  onMenuPress() {
-    console.log("CLICKED MENU!!!!!!!!!")
-  }
+
   render() {
     return (
       <View style={styles.container}>
+
         <Header
           placement="left"
           leftComponent={{ icon: 'home', color: '#fff' }}
-          centerComponent={{ text: 'ParkMe', style: { color: '#fff' } }}
-          rightComponent={{ icon: 'menu', color: '#fff', onPress: this.onMenuPress }}
+          centerComponent={{ text: 'Listings', style: { color: '#fff' } }}
+          rightComponent={{ icon: 'search', color: '#fff' }}
+          outerContainerStyles={{ backgroundColor: '#3D6DCC' }}
         />
-        <Text style={styles.listingsText}>Listings</Text>
+        <SortTabBar />
         <ScrollView>
-          <Card style={styles.listContainer} containerStyle={{ padding: 0 }} >
-            {
-              tempUsers.map((u, i) => {
-                return (
-                  <ListItem
-                    key={i}
-                    style={styles.listItem}
-                    roundAvatar
-                    title={u.city}
-                    avatar={u.avatar}
-                  />
-                );
-              })
-            }
-          </Card>
+          {
+            tempUsers.map((user, index) => {
+              return (
+                <Card key={index} style={styles.listContainer} containerStyle={{ padding: 0 }} image={user.avatar} >
+                  <Text style={{ marginBottom: 10 }}>{user.city}</Text>
+                  <Button
+                    icon={{ name: 'code' }}
+                    backgroundColor='#3D6DCC'
+                    buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
+                    title='Reserve' />
+                </Card>
+              )
+            })
+          }
         </ScrollView>
       </View>
     );
