@@ -5,6 +5,7 @@ import tempPhoto from '../assets/parkingTempImage.jpg';
 import ModalDropdown from 'react-native-modal-dropdown';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import SortTabBar from './SortTabBar';
+import Footer from "./Footer";
 
 const tempUsers = [
   {
@@ -119,28 +120,26 @@ const tempUsers = [
 ]
 
 export default class ListingListView extends Component {
-  constructor(){
+  constructor() {
     super()
 
     this.reserveClicked = this.reserveClicked.bind(this);
 
   }
   reserveClicked(listing, user) {
-    console.log('user', user);
     const { navigate } = this.props.navigation;
-    navigate('Details', { listing: listing, user: user});
+    navigate('Details', { listing: listing, user: user });
   }
   render() {
     return (
       <View style={styles.container}>
-
-        <Header
+        {/* <Header
           placement="left"
           leftComponent={{ icon: 'home', color: '#fff' }}
           centerComponent={{ text: 'Listings', style: { color: '#fff' } }}
           rightComponent={{ icon: 'search', color: '#fff' }}
           outerContainerStyles={{ backgroundColor: '#3D6DCC' }}
-        />
+        /> */}
         <SortTabBar />
         <ScrollView>
           {
@@ -158,9 +157,11 @@ export default class ListingListView extends Component {
                   </Card>
                 )
               })
-              })
+            })
           }
         </ScrollView>
+        <View style={styles.footerView}>
+        </View>
       </View>
     );
   }
@@ -183,6 +184,6 @@ const styles = StyleSheet.create({
   listItem: {
     padding: 0,
     flex: 1
-  }
+  },
 
 });

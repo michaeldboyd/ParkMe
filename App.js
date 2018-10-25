@@ -13,7 +13,7 @@ class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-      {/* <Text> HELLO WORLD!</Text> */}
+        {/* <Text> HELLO WORLD!</Text> */}
         <ListingsListView />
       </View>
     );
@@ -33,13 +33,23 @@ const AppContainer = connect(
   mapDispatchToProps
 )(App);
 import AppNavigator from './components/AppNavigator';
+import FooterTabs from "./components/Footer";
 
 export default class TheApp extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <AppNavigator />
+        <View style={styles.container}>
+          <AppNavigator />
+          <FooterTabs />
+        </View>
       </Provider>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+})

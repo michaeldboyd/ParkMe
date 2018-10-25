@@ -5,9 +5,23 @@ import ListingListView from './ListingsListView';
 import DetailsView from './DetailsView';
 
 const AppNavigator = createStackNavigator({
-  Home: { screen: ListingListView},
-  OtherPag: { screen: OtherPage},
-  Details: {screen: DetailsView}
+  Home: {
+    screen: ListingListView,
+    navigationOptions: {
+      headerTitle: "Listings",
+      headerStyle: {
+        backgroundColor: "#3D6DCC"
+      },
+      headerTitleStyle: {
+        color: 'white',
+        fontSize: 20
+      }
+
+
+    }
+  },
+  OtherPag: { screen: OtherPage },
+  Details: { screen: DetailsView }
 });
 
 export default AppNavigator;
