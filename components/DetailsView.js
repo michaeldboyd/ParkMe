@@ -1,7 +1,8 @@
-import { React, Component } from "react";
+import  React, { Component } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
+import { Header } from 'react-native-elements';
 
-export default class ListingDisplayView extends Component {
+export default class DetailsView extends Component {
 
   _onPressButton() {
     //insert redux reserve stuff here
@@ -9,7 +10,8 @@ export default class ListingDisplayView extends Component {
   }
   
   render() {
-    let {listing} = this.props
+    let user = this.props.navigation.state.params.user;
+    let listing = this.props.navigation.state.params.listing;
     return (
       <View style={styles.container}>
         <Header
@@ -19,9 +21,9 @@ export default class ListingDisplayView extends Component {
           rightComponent={{ icon: 'search', color: '#fff' }}
           outerContainerStyles={{ backgroundColor: '#3D6DCC' }}
         />
-        <Text>{listing.name}</Text>
-        <Text>{listing.address}</Text>
-        <Text>{listing.price}</Text>
+        <Text>{user.first_name + " " + user.last_name}</Text>
+        <Text>{listing.street_address}</Text>
+        <Text>{listing.cost_per_hour}</Text>
         <Button onPress={this._onPressButton} title="Reserve Listing"/>
       </View>
     );
