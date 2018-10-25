@@ -12,6 +12,13 @@ export default class ListingDisplayView extends Component {
     let {listing} = this.props
     return (
       <View style={styles.container}>
+        <Header
+          placement="left"
+          leftComponent={{ text: 'Listings', color: '#fff' }}
+          centerComponent={{ text: 'Details', style: { color: '#fff' } }}
+          rightComponent={{ icon: 'search', color: '#fff' }}
+          outerContainerStyles={{ backgroundColor: '#3D6DCC' }}
+        />
         <Text>{listing.name}</Text>
         <Text>{listing.address}</Text>
         <Text>{listing.price}</Text>
@@ -26,6 +33,8 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: "#fff",
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
+      padding: 0,
+      width: "100%",
     }
   });
