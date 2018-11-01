@@ -1,12 +1,37 @@
 import  React, { Component } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-import { Header } from 'react-native-elements';
+import { StyleSheet, Text, View, Button, Image, Alert } from "react-native";
+import { Card } from 'react-native-elements';
 
 export default class DetailsView extends Component {
+  constructor() {
+    super()
 
-  _onPressButton() {
+    this.reserveClicked = this.reserveClicked.bind(this);
+    this.reserveConfirmed = this.reserveConfirmed.bind(this);
+    this.reserveCancelled = this.reserveCancelled.bind(this);
+
+  }
+
+  reserveClicked() {
     //insert redux reserve stuff here
-    Alert.alert('You tapped the button!')
+    Alert.alert(
+      'Confirm Action',
+      'Make Reservation?',
+      [
+        {text: 'Make Reservation', onPress: this.reserveConfirmed},
+        {text: 'Cancel', onPress: this.reserveCancelled, style: 'cancel'}
+      ]
+    );
+  }
+
+  reserveConfirmed() {
+    //insert redux reserve stuff here
+    let listing = this.props.navigation.state.params.listing;
+
+  }
+
+  reserveCancelled() {
+    
   }
   
   render() {
@@ -14,17 +39,11 @@ export default class DetailsView extends Component {
     let listing = this.props.navigation.state.params.listing;
     return (
       <View style={styles.container}>
-        <Header
-          placement="left"
-          leftComponent={{ text: 'Listings', color: '#fff' }}
-          centerComponent={{ text: 'Details', style: { color: '#fff' } }}
-          rightComponent={{ icon: 'search', color: '#fff' }}
-          outerContainerStyles={{ backgroundColor: '#3D6DCC' }}
-        />
-        <Text>{user.first_name + " " + user.last_name}</Text>
-        <Text>{listing.street_address}</Text>
-        <Text>{listing.cost_per_hour}</Text>
-        <Button onPress={this._onPressButton} title="Reserve Listing"/>
+        <Image style={{marginBottom: 20, width: 200, height: 200}} source={listing.image_path}></Image>
+        <Text style={{ marginBottom: 10 }}>{user.first_name + " " + user.last_name}</Text>
+        <Text style={{ marginBottom: 10 }}>{listing.street_address}</Text>
+        <Text style={{ marginBottom: 10 }}>{listing.cost_per_hour} per hour</Text>
+        <Button onPress={this.reserveClicked} title="Reserve Listing"/>
       </View>
     );
   }
@@ -38,5 +57,13 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       padding: 0,
       width: "100%",
+    },
+    Text: {
+      padding: "20%",
+      margin: "20%"
+    },
+    Image: {
+      padding: "20%",
+      margin: "20%"
     }
   });
