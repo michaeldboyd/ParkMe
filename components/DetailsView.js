@@ -27,7 +27,25 @@ export default class DetailsView extends Component {
   reserveConfirmed() {
     //insert redux reserve stuff here
     let listing = this.props.navigation.state.params.listing;
-
+    fetch('http://3.16.22.45:3000/api/reservation',{
+      method: "POST",
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "renter_id": listing.owner_id,
+        "spot_id": listing.id,
+        "start_datetime": 5555590000,
+        "end_datetime": 5555990419,
+        "is_cancelled": 0
+      })
+    })
+      .then((response) => response.json())
+      .then((dataResponse) => {
+        console.log(dataResponse)
+      })
+      
   }
 
   reserveCancelled() {
