@@ -35,12 +35,12 @@ export default class DetailsView extends Component {
   }
   
   render() {
-    let user = this.props.navigation.state.params.user;
     let listing = this.props.navigation.state.params.listing;
+    console.log('listing', listing)
     return (
       <View style={styles.container}>
-        <Image style={{marginBottom: 20, width: 200, height: 200}} source={listing.image_path}></Image>
-        <Text style={{ marginBottom: 10 }}>{user.first_name + " " + user.last_name}</Text>
+        <Image style={{marginBottom: 20, width: 200, height: 200}} source={{uri: listing.parking_image_path === null ? 'https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png' : listing.parking_image_path}}></Image>
+        <Text style={{ marginBottom: 10 }}>{listing.first_name + " " + listing.last_name}</Text>
         <Text style={{ marginBottom: 10 }}>{listing.street_address}</Text>
         <Text style={{ marginBottom: 10 }}>{listing.cost_per_hour} per hour</Text>
         <Button onPress={this.reserveClicked} title="Reserve Listing"/>

@@ -3,6 +3,7 @@ import Home from "./Home"
 import OtherPage from './OtherPage';
 import ListingListView from './ListingsListView';
 import DetailsView from './DetailsView';
+import AddListingView from './AddListingView';
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -21,7 +22,8 @@ const AppNavigator = createStackNavigator({
     }
   },
   OtherPag: { screen: OtherPage },
-  Details: { screen: DetailsView }
+  Details: { screen: DetailsView },
+  Add: { screen: AddListingView }
 });
 
 export default AppNavigator;

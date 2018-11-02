@@ -41,7 +41,6 @@ export default class TheApp extends React.Component {
       <Provider store={store}>
         <View style={styles.container}>
           <AppNavigator />
-          <FooterTabs />
         </View>
       </Provider>
     );

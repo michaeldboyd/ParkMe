@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Footer, FooterTab, Button, Icon, Text, Badge } from 'native-base';
 export default class FooterTabs extends Component {
+    componentDidMount() {
+    }
     render() {
         return (
             <Footer>
@@ -8,7 +10,7 @@ export default class FooterTabs extends Component {
                     <Button active vertical>
                         <Icon name="home" />
                     </Button>
-                    <Button vertical>
+                    <Button vertical onPress={() => this.props.navigation.navigate("Add")}>
                         <Icon name="add" />
                     </Button>
                     <Button badge vertical>
