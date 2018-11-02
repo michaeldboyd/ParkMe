@@ -5,6 +5,9 @@ import { Card } from 'react-native-elements';
 export default class DetailsView extends Component {
   constructor() {
     super()
+    this.state = {
+      reserved: false
+    }
 
     this.reserveClicked = this.reserveClicked.bind(this);
     this.reserveConfirmed = this.reserveConfirmed.bind(this);
@@ -60,7 +63,8 @@ export default class DetailsView extends Component {
         <Image style={{marginBottom: 20, width: 200, height: 200}} source={{uri: listing.parking_image_path === null ? 'https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png' : listing.parking_image_path}}></Image>
         <Text style={{ marginBottom: 10 }}>{listing.first_name + " " + listing.last_name}</Text>
         <Text style={{ marginBottom: 10 }}>{listing.street_address}</Text>
-        <Text style={{ marginBottom: 10 }}>{listing.cost_per_hour} per hour</Text>
+        <Text style={{ marginBottom: 10 }}>{listing.cost_per_hour}$ per hour</Text>
+        <Text style={{ marginBottom: 10 }}>{listing.description}</Text>
         <Button onPress={this.reserveClicked} title="Reserve Listing"/>
       </View>
     );
