@@ -5,6 +5,9 @@ import { Card } from 'react-native-elements';
 export default class DetailsView extends Component {
   constructor() {
     super()
+    this.state={
+      reserved: 0
+    }
 
     this.reserveClicked = this.reserveClicked.bind(this);
     this.reserveConfirmed = this.reserveConfirmed.bind(this);
@@ -14,6 +17,10 @@ export default class DetailsView extends Component {
     
     this.actionCancelled = this.actionCancelled.bind(this);
 
+  }
+
+  componentDidMount() {
+    this.setState({ reserved: this.props.navigation.state.params.listing })
   }
 
   reserveClicked() {
@@ -43,14 +50,14 @@ export default class DetailsView extends Component {
         "start_datetime": 5555590000,
         "end_datetime": 5555990419,
         "is_cancelled": 0,
-        "reserved": 1
+        "is_reserved": 1
       })
     })
-      .then((response) => response.json())
-      .then((dataResponse) => {
-        console.log(dataResponse)
-      })
-      
+    .then((response) => response.json())
+    .then((dataResponse) => {
+      console.log(dataResponse)
+    })
+    this.state.reserved = 1 
   }
 
   unreserveClicked() {
@@ -78,14 +85,14 @@ export default class DetailsView extends Component {
         "start_datetime": 5555590000,
         "end_datetime": 5555990419,
         "is_cancelled": 0,
-        "reserved": 0 
+        "is_reserved": 0 
       })
     })
-      .then((response) => response.json())
-      .then((dataResponse) => {
-        console.log(dataResponse)
-      })
-      
+    .then((response) => response.json())
+    .then((dataResponse) => {
+      console.log(dataResponse)
+    })
+    this.state.reserved = 0 
   }
 
   actionCancelled() {
@@ -101,8 +108,8 @@ export default class DetailsView extends Component {
         <Text style={{ marginBottom: 10 }}>{listing.first_name + " " + listing.last_name}</Text>
         <Text style={{ marginBottom: 10 }}>{listing.street_address}</Text>
         <Text style={{ marginBottom: 10 }}>{listing.cost_per_hour}$ per hour</Text>
-        <Text style={{ marginBottom: 10 }}>{listing.description}</Text>
-        {listing.reserved ? (<Button onPress={this.unreserveClicked} title='Cancel Reservation'/>) : (<Button onPress={this.reserveClicked} title='Reserve Listing'/>)}
+        {/* <Text style={{ marginBottom: 10 }}>{listing.description}</Text> */}
+        {this.state.reserved ? (<Button onPress={this.unreserveClicked} title='Cancel Reservation'/>) : (<Button onPress={this.reserveClicked} title='Reserve Listing'/>)}
       </View>
     );
   }
