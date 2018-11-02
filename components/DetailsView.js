@@ -42,7 +42,8 @@ export default class DetailsView extends Component {
         "spot_id": listing.id,
         "start_datetime": 5555590000,
         "end_datetime": 5555990419,
-        "is_cancelled": 0
+        "is_cancelled": 0,
+        "reserved": 1
       })
     })
       .then((response) => response.json())
@@ -76,7 +77,8 @@ export default class DetailsView extends Component {
         "spot_id": listing.id,
         "start_datetime": 5555590000,
         "end_datetime": 5555990419,
-        "is_cancelled": 0
+        "is_cancelled": 0,
+        "reserved": 0 
       })
     })
       .then((response) => response.json())
