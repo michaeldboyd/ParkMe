@@ -1,33 +1,55 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { AppRegistry, TextInput } from 'react-native';
+
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 
 import { Button } from 'react-native-elements'
 
-export default class AddListingView extends React.Component {
+export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {address: '', city: '', state: '', zip: '', details: '', photo: ''};
-    this.test = this.test.bind(this);
+    this.state = {street_address: '', city: '', state: '', zip: '', description: '', cost_per_hour: ''};
+    this.submit = this.submit.bind(this);
   }
 
-  test(){
-    console.log(this.state)
+  submit(){
+    let cost = this.state.cost_per_hour;
+    let des = this.state.description;
+    let sa = this.state.street_address;
+    let ct = this.state.city;
+    let st = this.state.state;
+    let zp = this.state.zip;
+    fetch('http://3.16.22.45:3000/api/listing', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+            'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        cost_per_hour: {cost},
+        description: {des},
+        street_address: {sa},
+        city: {ct},
+        state: {st},
+        zip: {zp}
+      }),
+      });
   }
 
   render() {
 
-    const {address, city, state, zip, details, photo} = this.state;
+    const {street_address, city, state, zip, description, cost_per_hour} = this.state;
     
     return (
       <View style={styles.container}>
 
         <FormLabel>Address</FormLabel>
         <FormInput 
-          onChangeText={(address) => this.setState({address})}
-          value={address}
+          onChangeText={(street_address) => this.setState({street_address})}
+          value={street_address}
           autoFocus={true}
           onSubmitEditing={() => { this.cityInput.focus(); }}/>
         {/* <FormValidationMessage>You must provide a valid address</FormValidationMessage> */}
@@ -53,24 +75,26 @@ export default class AddListingView extends React.Component {
           ref={(input) => { this.zipInput = input; }}
           onChangeText={(zip) => this.setState({zip})}
           value={zip}
-          onSubmitEditing={() => { this.detailsInput.focus(); }}/>
+          onSubmitEditing={() => { this.descriptionInput.focus(); }}/>
         {/* <FormValidationMessage>You must provide a valid zip code</FormValidationMessage> */}
 
-        <FormLabel>Details</FormLabel>
+        <FormLabel>Description</FormLabel>
         <FormInput 
-          ref={(input) => { this.detailsInput = input; }}
-          onChangeText={(details) => this.setState({details})}
-          value={details}/>
+          ref={(input) => { this.descriptionInput = input; }}
+          onChangeText={(description) => this.setState({description})}
+          value={description}
+          onSubmitEditing={() => { this.costPerHourInput.focus(); }}/>
         {/* <FormValidationMessage></FormValidationMessage> */}
 
-        <FormLabel>Photo</FormLabel>
-        <FormInput onChangeText={(photo) => this.setState({photo})}
-        value={photo}/>
-
+        <FormLabel>Cost Per Hour</FormLabel>
+        <FormInput 
+          ref={(input) => { this.costPerHourInput = input; }}
+          onChangeText={(cost_per_hour) => this.setState({cost_per_hour})}
+          value={cost_per_hour}/>
 
         <Button
-          onPress={this.test}
-          disabled={!address || !city || !state || !zip || !details}
+          onPress={this.submit}
+          disabled={!street_address || !city || !state || !zip || !description || !cost_per_hour}
           title='Submit' />
       </View>
     );
@@ -79,12 +103,12 @@ export default class AddListingView extends React.Component {
 
 const ListingData = 
 {
-  photo: '',
-  street: '',
+  cost_per_hour: '',
+  street_address: '',
   city: '',
   state: '',
-  zipCode: '',
-  details: ''
+  zip: '',
+  description: ''
 };
 
 const styles = StyleSheet.create({
@@ -94,5 +118,3 @@ const styles = StyleSheet.create({
     marginTop: 25
   },
 });
-
-
