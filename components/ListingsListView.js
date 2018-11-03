@@ -14,13 +14,22 @@ export default class ListingListView extends Component {
       listings: []
     }
     this.reserveClicked = this.reserveClicked.bind(this);
+    this.getListings = this.getListings.bind(this);
 
   }
 
   componentDidMount() {
+    this.getListings();
+    // setInterval(() => {
+    //   this.getListings();
+    // }, 5000);
+  }
+
+  getListings() {
     fetch('http://3.16.22.45:3000/api/listings')
       .then((response) => response.json())
       .then((jsonResponse) => {
+        console.log("setting state");
         this.setState({ listings: jsonResponse.listings })
       })
   }
