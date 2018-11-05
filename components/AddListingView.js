@@ -22,6 +22,8 @@ export default class App extends React.Component {
     let ct = this.state.city;
     let st = this.state.state;
     let zp = this.state.zip;
+    let owner = 100;
+    let im_path = "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/how-to-fill-driveway-cracks.35.jpg";
     fetch('http://3.16.22.45:3000/api/listing', {
         method: 'POST',
         headers: {
@@ -29,7 +31,9 @@ export default class App extends React.Component {
             'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        owner_id: {owner},
         cost_per_hour: {cost},
+        image_path: {im_path},
         description: {des},
         street_address: {sa},
         city: {ct},
