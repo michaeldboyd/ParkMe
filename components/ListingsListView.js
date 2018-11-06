@@ -29,10 +29,11 @@ export default class ListingListView extends Component {
     fetch('http://3.16.22.45:3000/api/listings')
       .then((response) => response.json())
       .then((jsonResponse) => {
-        console.log("setting state");
-        this.setState({ listings: jsonResponse.listings })
+        var filteredArray = jsonResponse.listings.filter((listing) => listing.state === "AK")
+        this.setState({ listings: filteredArray.reverse() })
       })
   }
+
   reserveClicked(listing) {
     const { navigate } = this.props.navigation;
     navigate('Details', { listing: listing });
@@ -51,11 +52,11 @@ export default class ListingListView extends Component {
                     <Card key={index} style={styles.listContainer} containerStyle={{ padding: 0 }} image={{ uri: spot.parking_image_path === null ? 'https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png' : spot.parking_image_path }} >
                       <Text style={{ marginBottom: 10 }}>{spot.city}, {spot.state}</Text>
                       <Button
-                        icon={{ name: 'code' }}
+                        icon={spot.is_reserved === 1 ? {name: 'error'} : { name: 'check' }}
                         onPress={() => this.reserveClicked(spot)}
-                        backgroundColor='#3D6DCC'
+                        backgroundColor={spot.is_reserved===1? 'rgba(0,0,0,.5)' : '#3D6DCC'}
                         buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                        title='Reserve' />
+                        title={spot.is_reserved === 1 ? 'View Details':'Reserve'}/>
                     </Card>
                   )
                 }
@@ -68,7 +69,7 @@ export default class ListingListView extends Component {
         </ScrollView>
         <View style={styles.footerView}>
         </View>
-        <FooterTabs navigation={this.props.navigation} />
+        <FooterTabs active={1} navigation={this.props.navigation} />
       </View>
     );
   }
