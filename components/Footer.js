@@ -11,7 +11,7 @@ export default class FooterTabs extends Component {
                         <Icon name="home" />
                         <Text>Listings</Text>
                     </Button>
-                    <Button vertical onPress={() => this.props.navigation.navigate("Add")} active={this.props.active===2}>
+                    <Button vertical onPress={() => this.props.navigation.navigate("Add", {getListings: this.props.getListings})} active={this.props.active===2}>
                         <Icon name="add" />
                         <Text>Add</Text>
                     </Button>

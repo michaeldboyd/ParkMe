@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, ScrollView, ListView, Image, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, ScrollView, ListView, Image, ActivityIndicator, RefreshControl } from "react-native";
 import { Card, ListItem, Button, Header } from 'react-native-elements'
 import tempPhoto from '../assets/parkingTempImage.jpg';
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -11,10 +11,12 @@ export default class ListingListView extends Component {
   constructor() {
     super()
     this.state = {
-      listings: []
+      listings: [],
+      refreshing: false
     }
     this.reserveClicked = this.reserveClicked.bind(this);
     this.getListings = this.getListings.bind(this);
+    this.onRefresh = this.onRefresh.bind(this);
 
   }
 
@@ -29,20 +31,37 @@ export default class ListingListView extends Component {
     fetch('http://3.16.22.45:3000/api/listings')
       .then((response) => response.json())
       .then((jsonResponse) => {
-        var filteredArray = jsonResponse.listings.filter((listing) => listing.state === "AK")
-        this.setState({ listings: filteredArray.reverse() })
+        var reversedArray = jsonResponse.listings.slice().reverse();
+        var filteredArray = reversedArray.filter((listing) => listing.state === "AK")
+        filteredArray.unshift(jsonResponse.listings[jsonResponse.listings.length-1])
+
+        this.setState({ listings: filteredArray, refreshing: false })
+      }).catch((err) => {
+        console.log('err', err)
+        this.setState({ refreshing: false})
       })
+  }
+
+  onRefresh = () => {
+    this.setState({refreshing: true});
+    this.getListings()
   }
 
   reserveClicked(listing) {
     const { navigate } = this.props.navigation;
-    navigate('Details', { listing: listing });
+    navigate('Details', { listing: listing, getListings: this.getListings });
   }
+
   render() {
     return (
       <View style={styles.container}>
         <SortTabBar />
-        <ScrollView>
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }>
           {
             this.state.listings.length > 0 ?
               this.state.listings.map((spot, index) => {
@@ -69,7 +88,7 @@ export default class ListingListView extends Component {
         </ScrollView>
         <View style={styles.footerView}>
         </View>
-        <FooterTabs active={1} navigation={this.props.navigation} />
+        <FooterTabs active={1} getListings={this.getListings} navigation={this.props.navigation} />
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Alert, ActivityIndicator} from 'react-native';
 
 import { AppRegistry, TextInput } from 'react-native';
 
@@ -15,18 +15,34 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { street_address: '', city: '', state: '', zip: '', description: '', cost_per_hour: '' };
+    this.state = { street_address: '', city: '', state: '', zip: '', description: '', cost_per_hour: '', submitting: false };
     this.submit = this.submit.bind(this);
+    this.submitAlert = this.submitAlert.bind(this);
+  }
+
+  submitAlert() {
+    Alert.alert(
+      'Confirm Action',
+      'Submit Listings?',
+      [
+        { text: 'Submit', onPress: this.submit },
+        { text: 'Cancel', onPress: this.actionCancelled, style: 'cancel' }
+      ]
+    );
+  }
+
+  actionCancelled() {
+    console.log('cancelled choice')
   }
 
   submit() {
+    this.setState({submitting: true})
     let cost = this.state.cost_per_hour;
     let des = this.state.description;
     let sa = this.state.street_address;
     let ct = this.state.city;
     let st = this.state.state;
     let zp = this.state.zip;
-    console.log("cost", cost, "des", des, "st", st, "ct", ct, "sa", sa, "zp", zp)
     let owner = 100;
     let im_path = "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/how-to-fill-driveway-cracks.35.jpg";
     fetch('http://3.16.22.45:3000/api/listing', {
@@ -46,7 +62,9 @@ export default class App extends React.Component {
         zip: zp
       }),
     }).then((response) => response.json()).then((responseJSON) => {
-      console.log(responseJSON)
+      this.props.navigation.state.params.getListings();
+      this.setState({submitting: false})
+      this.props.navigation.navigate("Home");
     })
   }
 
@@ -56,9 +74,10 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.container}>
+        <View style={this.state.submitting ? styles.submittingContainer : styles.hide}>
+          <ActivityIndicator size="large" color="black" />
+        </View>
         <ScrollView keyboardDismissMode="on-drag">
-
-
           <FormLabel>Address</FormLabel>
           <FormInput
             onChangeText={(street_address) => this.setState({ street_address })}
@@ -106,11 +125,11 @@ export default class App extends React.Component {
             value={cost_per_hour} />
 
           <Button
-            onPress={this.submit}
+            onPress={this.submitAlert}
             disabled={!street_address || !city || !state || !zip || !description || !cost_per_hour}
             title='Submit' />
         </ScrollView>
-        <FooterTabs active={2} navigation={this.props.navigation} />
+        <FooterTabs active={2} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} />
       </View>
     );
   }
@@ -132,4 +151,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: 25
   },
+  submittingContainer: {
+    position: 'absolute',
+    top: '40%',
+    left: '50%'
+  },
+  hide: {
+    display: 'none'
+  }
 });

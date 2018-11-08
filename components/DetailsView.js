@@ -22,11 +22,11 @@ export default class DetailsView extends Component {
   }
 
   componentDidMount() {
-    this.setState({ reserved: this.props.navigation.state.params.listing })
+    this.setState({ reserved: this.props.navigation.state.params.listing.is_reserved })
   }
 
   componentDidUpdate(){
-    console.log(this.state)
+    //console.log('state',this.state)
   }
 
   reserveClicked() {
@@ -42,8 +42,8 @@ export default class DetailsView extends Component {
 
   reserveConfirmed() {
     let listing = this.props.navigation.state.params.listing;
-    fetch('http://3.16.22.45:3000/api/listing/$'+listing.id, {
-      method: "POST",
+    fetch('http://3.16.22.45:3000/api/listing/'+listing.id, {
+      method: "PUT",
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
@@ -52,9 +52,12 @@ export default class DetailsView extends Component {
         "is_reserved": 1
       })
     })
-      .then((response) => response.json())
+      .then((response) => {
+        response.text()
+      })
       .then((dataResponse) => {
-        console.log(dataResponse)
+        console.log("dataResponse", dataResponse)
+        this.props.navigation.state.params.getListings();
       })
       this.setState({ reserved: 1 })
   }
@@ -72,8 +75,8 @@ export default class DetailsView extends Component {
 
   unreserveConfirmed() {
     let listing = this.props.navigation.state.params.listing;
-    fetch('http://3.16.22.45:3000/api/listing/$'+listing.id, {
-      method: "POST",
+    fetch('http://3.16.22.45:3000/api/listing/'+listing.id, {
+      method: "PUT",
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
@@ -82,9 +85,10 @@ export default class DetailsView extends Component {
         "is_reserved": 0
       })
     })
-      .then((response) => response.json())
+      .then((response) => response.text())
       .then((dataResponse) => {
-        console.log(dataResponse)
+        console.log('dataresponse', dataResponse)
+        this.props.navigation.state.params.getListings();
       })
       this.setState({ reserved: 0 })
   }
@@ -95,7 +99,6 @@ export default class DetailsView extends Component {
 
   render() {
     let listing = this.props.navigation.state.params.listing;
-    console.log('listing', listing)
     return (
       <View style={styles.container}>
         <Image style={{ marginBottom: 20, width: 200, height: 200 }} source={{ uri: listing.parking_image_path === null ? 'https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png' : listing.parking_image_path }}></Image>
@@ -103,10 +106,10 @@ export default class DetailsView extends Component {
         <Text style={{ marginBottom: 10 }}>{listing.street_address}</Text>
         <Text style={{ marginBottom: 10 }}>${listing.cost_per_hour} per hour</Text>
         {/* <Text style={{ marginBottom: 10 }}>{listing.description}</Text> */}
-        {listing.is_reserved === 1 ? (<Button onPress={this.unreserveClicked} title='Cancel Reservation' />) : (<Button onPress={this.reserveClicked} title='Reserve Listing' />)}
+        {this.state.reserved === 1 ? (<Button onPress={this.unreserveClicked} title='Cancel Reservation' />) : (<Button onPress={this.reserveClicked} title='Reserve Listing' />)}
 
         <View style={styles.footerContainer}>
-          <FooterTabs active={4} navigation={this.props.navigation} />
+          <FooterTabs active={4} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} />
         </View>
       </View>
     );
