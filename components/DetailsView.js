@@ -25,8 +25,11 @@ export default class DetailsView extends Component {
     this.setState({ reserved: this.props.navigation.state.params.listing })
   }
 
+  componentDidUpdate(){
+    console.log(this.state)
+  }
+
   reserveClicked() {
-    //insert redux reserve stuff here
     Alert.alert(
       'Confirm Action',
       'Make Reservation?',
@@ -38,20 +41,14 @@ export default class DetailsView extends Component {
   }
 
   reserveConfirmed() {
-    //insert redux reserve stuff here
     let listing = this.props.navigation.state.params.listing;
-    fetch('http://3.16.22.45:3000/api/reservation', {
+    fetch('http://3.16.22.45:3000/api/listing/$'+listing.id, {
       method: "POST",
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "renter_id": listing.owner_id,
-        "spot_id": listing.id,
-        "start_datetime": 5555590000,
-        "end_datetime": 5555990419,
-        "is_cancelled": 0,
         "is_reserved": 1
       })
     })
@@ -59,7 +56,7 @@ export default class DetailsView extends Component {
       .then((dataResponse) => {
         console.log(dataResponse)
       })
-    this.state.reserved = 1
+      this.setState({ reserved: 1 })
   }
 
   unreserveClicked() {
@@ -75,18 +72,13 @@ export default class DetailsView extends Component {
 
   unreserveConfirmed() {
     let listing = this.props.navigation.state.params.listing;
-    fetch('http://3.16.22.45:3000/api/reservation', {
+    fetch('http://3.16.22.45:3000/api/listing/$'+listing.id, {
       method: "POST",
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "renter_id": listing.owner_id,
-        "spot_id": listing.id,
-        "start_datetime": 5555590000,
-        "end_datetime": 5555990419,
-        "is_cancelled": 0,
         "is_reserved": 0
       })
     })
@@ -94,7 +86,7 @@ export default class DetailsView extends Component {
       .then((dataResponse) => {
         console.log(dataResponse)
       })
-    this.state.reserved = 0
+      this.setState({ reserved: 0 })
   }
 
   actionCancelled() {
