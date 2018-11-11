@@ -10,7 +10,6 @@ import { Button } from 'react-native-elements';
 import FooterTabs from "./Footer";
 import { TabHeading } from 'native-base';
 
-
 export default class App extends React.Component {
 
   constructor(props) {
@@ -73,11 +72,11 @@ export default class App extends React.Component {
     const { street_address, city, state, zip, description, cost_per_hour } = this.state;
 
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={this.state.submitting ? styles.submittingContainer : styles.hide}>
           <ActivityIndicator size="large" color="black" />
         </View>
-        <ScrollView keyboardDismissMode="on-drag">
+        <ScrollView>
           <FormLabel>Address</FormLabel>
           <FormInput
             onChangeText={(street_address) => this.setState({ street_address })}
@@ -129,8 +128,9 @@ export default class App extends React.Component {
             disabled={!street_address || !city || !state || !zip || !description || !cost_per_hour}
             title='Submit' />
         </ScrollView>
+        <View style={{ height: 40 }} />
         <FooterTabs active={2} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
