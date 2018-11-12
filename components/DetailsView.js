@@ -58,8 +58,8 @@ export default class DetailsView extends Component {
       .then((dataResponse) => {
         console.log("dataResponse", dataResponse)
         this.props.navigation.state.params.getListings();
+        this.setState({ reserved: 1 })
       })
-      this.setState({ reserved: 1 })
   }
 
   unreserveClicked() {
@@ -89,8 +89,8 @@ export default class DetailsView extends Component {
       .then((dataResponse) => {
         console.log('dataresponse', dataResponse)
         this.props.navigation.state.params.getListings();
+        this.setState({ reserved: 0 })
       })
-      this.setState({ reserved: 0 })
   }
 
   actionCancelled() {
