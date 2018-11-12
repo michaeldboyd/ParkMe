@@ -10,6 +10,18 @@ import { Button } from 'react-native-elements';
 import FooterTabs from "./Footer";
 import { TabHeading } from 'native-base';
 
+let images = [
+  "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/how-to-fill-driveway-cracks.35.jpg",
+  "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/NewConcreteDriveway.jpg",
+  "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/parking-lot.jpg",
+  "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/parkatmyhouse.jpg",
+  "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/driveway-specialists-wigan.jpg",
+  "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/house-with-concrete-driveway-02-090318.jpg",
+  "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/john's+parking+spot.jpeg",
+  "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/NewConcreteDriveway.jpg",
+  "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/parking_garage_entrance3.jpg"
+]
+
 
 export default class App extends React.Component {
 
@@ -37,14 +49,10 @@ export default class App extends React.Component {
 
   submit() {
     this.setState({submitting: true})
-    let cost = this.state.cost_per_hour;
-    let des = this.state.description;
-    let sa = this.state.street_address;
-    let ct = this.state.city;
-    let st = this.state.state;
-    let zp = this.state.zip;
-    let owner = 100;
-    let im_path = "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/how-to-fill-driveway-cracks.35.jpg";
+    let { cost_per_hour, description, street_address, city, state, zip } = this.state;
+    let owner_id = 100;
+    let im_path = images[Math.floor(Math.random() * images.length)];
+
     fetch('http://3.16.22.45:3000/api/listing', {
       method: 'POST',
       headers: {
@@ -52,19 +60,22 @@ export default class App extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        owner_id: owner,
-        cost_per_hour: cost,
+        owner_id,
+        cost_per_hour,
         image_path: im_path,
-        description: des,
-        street_address: sa,
-        city: ct,
-        state: st,
-        zip: zp
+        description,
+        street_address,
+        city,
+        state,
+        zip
       }),
     }).then((response) => response.json()).then((responseJSON) => {
       this.props.navigation.state.params.getListings();
       this.setState({submitting: false})
       this.props.navigation.navigate("Home");
+    }).catch((err) => {
+      console.log('err', err);
+      this.setState({submitting: false});
     })
   }
 
