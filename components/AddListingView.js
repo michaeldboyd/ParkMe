@@ -71,7 +71,7 @@ export default class App extends React.Component {
     }).then((response) => response.json()).then((responseJSON) => {
       this.props.navigation.state.params.getListings();
       this.setState({submitting: false})
-      this.props.navigation.navigate("Home");
+      this.props.navigation.navigate("MapMarkerView");
     }).catch((err) => {
       console.log('err', err);
       this.setState({submitting: false});
@@ -140,7 +140,6 @@ export default class App extends React.Component {
             title='Submit' />
         </ScrollView>
         <View style={{ height: 40 }} />
-        <FooterTabs active={2} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} />
       </KeyboardAvoidingView>
     );
   }
