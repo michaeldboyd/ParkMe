@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, 
   Alert, ActivityIndicator, Image, AppRegistry, TextInput } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
-import { ImagePicker } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 import { TabHeading } from 'native-base';
 import FooterTabs from "./Footer";
 
@@ -34,7 +34,26 @@ export default class App extends React.Component {
       submitting: false };
     this.submit = this.submit.bind(this);
     this.submitAlert = this.submitAlert.bind(this);
+    this.askPermissionsAsync = this.askPermissionsAsync.bind(this)
+    this._pickImage = this._pickImage.bind(this)
   }
+
+  askPermissionsAsync = async () => {
+    await Permissions.askAsync(Permissions.CAMERA);
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  };
+
+  _pickImage = async () => {
+    await this.askPermissionsAsync();
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      aspect: [4, 3],
+    });
+ 
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
 
   submitAlert() {
     Alert.alert(
@@ -86,18 +105,6 @@ export default class App extends React.Component {
   render() {
 
     const { street_address, city, state, zip, image, description, cost_per_hour } = this.state;
-    _pickImage = async () => {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: false,
-        aspect: [4, 3],
-      });
-  
-      console.log(result);
-  
-      if (!result.cancelled) {
-        this.setState({ image: result.uri });
-      }
-    };
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
