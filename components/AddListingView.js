@@ -38,6 +38,10 @@ export default class App extends React.Component {
     this._pickImage = this._pickImage.bind(this)
   }
 
+  componentDidMount() {
+    console.log("Component mounted")
+  }
+
   askPermissionsAsync = async () => {
     await Permissions.askAsync(Permissions.CAMERA);
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -111,7 +115,7 @@ export default class App extends React.Component {
         <View style={this.state.submitting ? styles.submittingContainer : styles.hide}>
           <ActivityIndicator size="large" color="black" />
         </View>
-        <ScrollView>
+        <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
           {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
           <Button
             title="Pick an image from camera roll"
