@@ -41,24 +41,11 @@ class MapMarkerView extends React.Component {
         var reversedArray = jsonResponse.listings.slice().reverse();
         var filteredArray = reversedArray.filter((listing) => listing.state === "FL")
         filteredArray.unshift(jsonResponse.listings[jsonResponse.listings.length-1])
-        this.getCoordinates(filteredArray)
+        this.setState({ listings: filteredArray, refreshing: false })
       }).catch((err) => {
         console.log('err', err)
         this.setState({ refreshing: false})
       })
-  }
-
-  async getCoordinates(filteredArray) {
-    await Promise.all(filteredArray.map(async function(listing) {
-      response = await fetch(`http://www.mapquestapi.com/geocoding/v1/address?key=7WIrkMXUaqKb28XTAN6AQ7WT7ijREbhU&location=${listing.street_address + ',' + listing.city + ',' + listing.state}`)
-      json = await response.json();
-      coords = json.results[0].locations[0].latLng
-      console.log(coords)
-      listing.coordinates = coords
-      return listing;
-    }));
-    console.log(filteredArray)
-    this.setState({ listings: filteredArray, refreshing: false })
   }
 
   render() {
@@ -70,10 +57,11 @@ class MapMarkerView extends React.Component {
           showsUserLocation={true}>
           {this.state.listings.length > 0 && this.state.listings.map((listing,i) => (
               <MapView.Marker
-                coordinate={listing.coordinates && {latitude: listing.coordinates.lat, longitude: listing.coordinates.lng}}
+                coordinate={{latitude: listing.latitude, longitude: listing.longitude}}
                 title={listing.city + ', ' + listing.state}
                 key={i}
                 id={listing.id}
+                pinColor={'#3D6DCC'}
                 onCalloutPress={() => this.props.navigation.navigate('Details', { listing: listing})}
               />
           ))}
