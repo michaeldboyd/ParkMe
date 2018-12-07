@@ -15,7 +15,7 @@ export default class FooterTabs extends Component {
                         <Icon name="add" />
                         <Text>Add</Text>
                     </Button>
-                    <Button badge vertical active={this.props.active===3}>
+                    <Button badge vertical onPress={() => this.props.navigation.navigate("Account")} active={this.props.active===3}>
                         <Badge><Text>2</Text></Badge>
                         <Icon name="person" />
                         <Text>Account</Text>

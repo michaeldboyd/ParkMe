@@ -53,11 +53,9 @@ class MapMarkerView extends React.Component {
       response = await fetch(`http://www.mapquestapi.com/geocoding/v1/address?key=7WIrkMXUaqKb28XTAN6AQ7WT7ijREbhU&location=${listing.street_address + ',' + listing.city + ',' + listing.state}`)
       json = await response.json();
       coords = json.results[0].locations[0].latLng
-      console.log(coords)
       listing.coordinates = coords
       return listing;
     }));
-    console.log(filteredArray)
     this.setState({ listings: filteredArray, refreshing: false })
   }
 

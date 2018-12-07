@@ -56,7 +56,6 @@ export default class DetailsView extends Component {
         response.text()
       })
       .then((dataResponse) => {
-        console.log("dataResponse", dataResponse)
         this.props.navigation.state.params.getListings();
         this.setState({ reserved: 1 })
       })
@@ -87,7 +86,6 @@ export default class DetailsView extends Component {
     })
       .then((response) => response.text())
       .then((dataResponse) => {
-        console.log('dataresponse', dataResponse)
         this.props.navigation.state.params.getListings();
         this.setState({ reserved: 0 })
       })
