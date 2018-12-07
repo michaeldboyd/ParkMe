@@ -5,6 +5,7 @@ import actions from "./actions/toggleActions";
 import store from "./store/store";
 import ListingsListView from './components/ListingsListView';
 
+
 class App extends React.Component {
   onPress = () => {
     this.props.setToggleStatus(!this.props.isToggled);
@@ -33,17 +34,24 @@ const AppContainer = connect(
   mapDispatchToProps
 )(App);
 import AppNavigator from './components/AppNavigator';
-import FooterTabs from "./components/Footer";
+import SignInView from './components/SignInView';
 
 export default class TheApp extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      user: null
+    }
+  }
+
   render() {
-    return (
-      <Provider store={store}>
-        <View style={styles.container}>
-          <AppNavigator />
-        </View>
-      </Provider>
-    );
+      return (
+        <Provider store={store}>
+          <View style={styles.container}>
+            <AppNavigator />
+          </View>
+        </Provider>
+      );
   }
 }
 
