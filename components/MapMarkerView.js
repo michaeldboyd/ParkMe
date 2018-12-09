@@ -41,7 +41,7 @@ class MapMarkerView extends React.Component {
         var reversedArray = jsonResponse.listings.slice().reverse();
         var filteredArray = reversedArray.filter((listing) => listing.state === "FL")
         filteredArray.unshift(jsonResponse.listings[jsonResponse.listings.length-1])
-        this.getCoordinates(filteredArray)
+        this.setState({ listings: filteredArray, refreshing: false })
       }).catch((err) => {
         console.log('err', err)
         this.setState({ refreshing: false})
@@ -60,7 +60,6 @@ class MapMarkerView extends React.Component {
   }
 
   render() {
-
     return (
       <View style={styles.container}>
         <MapView
@@ -68,10 +67,11 @@ class MapMarkerView extends React.Component {
           showsUserLocation={true}>
           {this.state.listings.length > 0 && this.state.listings.map((listing,i) => (
               <MapView.Marker
-                coordinate={listing.coordinates && {latitude: listing.coordinates.lat, longitude: listing.coordinates.lng}}
+                coordinate={{latitude: listing.latitude, longitude: listing.longitude}}
                 title={listing.city + ', ' + listing.state}
                 key={i}
                 id={listing.id}
+                pinColor={'#3D6DCC'}
                 onCalloutPress={() => this.props.navigation.navigate('Details', { listing: listing})}
               />
           ))}
