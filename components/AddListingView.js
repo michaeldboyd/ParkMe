@@ -139,7 +139,10 @@ export default class App extends React.Component {
             disabled={!street_address || !city || !state || !zip || !description || !cost_per_hour}
             title='Submit' />
         </ScrollView>
-        <View style={{ height: 40 }} />
+        <View style={{ height: 80 }} />
+        <View style={styles.footerContainer}>
+          <FooterTabs active={4} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} screenProps={this.props.screenProps}/>
+        </View>
       </KeyboardAvoidingView>
     );
   }
@@ -159,7 +162,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 25
+    marginTop: 0
   },
   submittingContainer: {
     position: 'absolute',
@@ -168,5 +171,10 @@ const styles = StyleSheet.create({
   },
   hide: {
     display: 'none'
+  },
+  footerContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: "100%"
   }
 });
