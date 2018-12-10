@@ -44,7 +44,7 @@ class MapMarkerView extends React.Component {
         this.setState({ listings: filteredArray, refreshing: false })
       }).catch((err) => {
         console.log('err', err)
-        this.setState({ refreshing: false})
+        //this.setState({ refreshing: false})
       })
   }
 
@@ -61,7 +61,7 @@ class MapMarkerView extends React.Component {
                 key={i}
                 id={listing.id}
                 pinColor={'#3D6DCC'}
-                onCalloutPress={() => this.props.navigation.navigate('Details', { listing: listing})}
+                onCalloutPress={() => this.props.navigation.navigate('Details', { listing: listing, getListings: this.getListings})}
               />
           ))}
         </MapView>
