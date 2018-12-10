@@ -107,7 +107,7 @@ export default class DetailsView extends Component {
         {this.state.reserved === 1 ? (<Button onPress={this.unreserveClicked} title='Cancel Reservation' />) : (<Button onPress={this.reserveClicked} title='Reserve Listing' />)}
 
         <View style={styles.footerContainer}>
-          <FooterTabs active={4} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} />
+          <FooterTabs active={4} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} screenProps={this.props.screenProps}/>
         </View>
       </View>
     );

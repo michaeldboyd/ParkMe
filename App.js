@@ -100,7 +100,7 @@ export default class TheApp extends React.Component {
       return (
         <Provider store={ store }>
           <View style={ styles.container }>
-            <AppNavigator screenProps={ { signOut: this.signOut } } />
+            <AppNavigator screenProps={ { signOut: this.signOut, user: this.state.user } } />
           </View>
         </Provider>
       );
