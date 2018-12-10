@@ -109,6 +109,7 @@ export default class DetailsView extends Component {
 // }
 
 renderDescription = () => {
+  let listing = this.props.navigation.state.params.listing;
   return (
     <View>
       <Text style={styles.descriptionText}>{listing.first_name + " " + listing.last_name}</Text>
@@ -140,6 +141,7 @@ renderDescription = () => {
 // }
 
 renderContactHeader = () => {
+  let listing = this.props.navigation.state.params.listing;
   return (
     <View style={styles.headerContainer}>
       <View style={styles.coverContainer}>
@@ -251,6 +253,7 @@ const styles = StyleSheet.create({
   },
   productRow: {
     margin: 25,
+    justifyContent: 'center'
   },
   mainviewStyle: {
     flex: 1,
@@ -261,8 +264,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     flex: 1,
     justifyContent: 'flex-end',
-    // marginBottom: 15,
-    // marginRight: 15,
   },
   footer: {
     position: 'absolute',
@@ -290,7 +291,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignItems: 'flex-start',
     justifyContent: 'center',
-
     fontSize: 16,
   },
   borderCenter: {
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   detailText: {
-    marginBottom: 4,
+    marginBottom: 10,
     color: 'black',
     fontSize: 22,
     fontWeight: '600',
