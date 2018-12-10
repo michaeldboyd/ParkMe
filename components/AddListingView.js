@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, 
-  Alert, ActivityIndicator, Image, AppRegistry, TextInput } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage, Button} from 'react-native-elements';
+  Alert, ActivityIndicator, Image, AppRegistry, TextInput, Button } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage} from 'react-native-elements';
 import { ImagePicker, Permissions } from 'expo';
 import { TabHeading } from 'native-base';
 import FooterTabs from "./Footer";
@@ -31,7 +31,8 @@ export default class App extends React.Component {
       image: null, 
       description: '', 
       cost_per_hour: '', 
-      submitting: false };
+      submitting: false,
+      hideDefaultImage: false };
     this.submit = this.submit.bind(this);
     this.submitAlert = this.submitAlert.bind(this);
     this.askPermissionsAsync = this.askPermissionsAsync.bind(this)
@@ -53,7 +54,7 @@ export default class App extends React.Component {
       allowsEditing: false,
       aspect: [4, 3],
     });
- 
+
     if (!result.cancelled) {
       this.setState({ image: result.uri });
     }
@@ -116,16 +117,18 @@ export default class App extends React.Component {
           <ActivityIndicator size="large" color="black" />
         </View>
         <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-          <Button
-            title="Pick an image from camera roll"
-            onPress={this._pickImage}
-          />
+          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 10 }} />}
+          <View style={{marginTop: 10}}>
+            <Button
+              title="Pick an image from camera roll"
+              onPress={this._pickImage}
+            />
+          </View>
+
           <FormLabel>Address</FormLabel>
           <FormInput
             onChangeText={(street_address) => this.setState({ street_address })}
             value={street_address}
-            autoFocus={true}
             onSubmitEditing={() => { this.cityInput.focus(); }} />
           {/* <FormValidationMessage>You must provide a valid address</FormValidationMessage> */}
 
@@ -172,7 +175,10 @@ export default class App extends React.Component {
             disabled={!street_address || !city || !state || !zip || !description || !cost_per_hour}
             title='Submit' />
         </ScrollView>
-        <View style={{ height: 40 }} />
+        <View style={{ height: 80 }} />
+        <View style={styles.footerContainer}>
+          <FooterTabs active={4} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} screenProps={this.props.screenProps}/>
+        </View>
       </KeyboardAvoidingView>
     );
   }
@@ -192,7 +198,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 25
+    marginTop: 0
   },
   submittingContainer: {
     position: 'absolute',
@@ -201,5 +207,10 @@ const styles = StyleSheet.create({
   },
   hide: {
     display: 'none'
+  },
+  footerContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: "100%"
   }
 });

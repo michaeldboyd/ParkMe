@@ -49,7 +49,6 @@ class MapMarkerView extends React.Component {
   }
 
   render() {
-
     return (
       <View style={styles.container}>
         <MapView
@@ -67,7 +66,7 @@ class MapMarkerView extends React.Component {
           ))}
         </MapView>
         {this.state.refreshing && <ActivityIndicator style={styles.loading} size="large" color="#0000ff"/>}
-        <FooterTabs active={1} getListings={this.getListings} navigation={this.props.navigation} />
+        <FooterTabs active={1} getListings={this.getListings} navigation={this.props.navigation} screenProps={this.props.screenProps} />
       </View>
     );
   }

@@ -87,7 +87,7 @@ export default class ListingListView extends Component {
         </ScrollView>
         <View style={styles.footerView}>
         </View>
-        <FooterTabs active={1} getListings={this.getListings} navigation={this.props.navigation} />
+        <FooterTabs active={1} getListings={this.getListings} navigation={this.props.navigation} screenProps={this.props.screenProps}/>
       </View>
     );
   }
