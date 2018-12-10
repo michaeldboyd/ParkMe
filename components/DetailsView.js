@@ -57,7 +57,6 @@ export default class DetailsView extends Component {
         response.text()
       })
       .then((dataResponse) => {
-        console.log("dataResponse", dataResponse)
         this.props.navigation.state.params.getListings();
         this.setState({ reserved: 1 })
       })
@@ -88,7 +87,6 @@ export default class DetailsView extends Component {
     })
       .then((response) => response.text())
       .then((dataResponse) => {
-        console.log('dataresponse', dataResponse)
         this.props.navigation.state.params.getListings();
         this.setState({ reserved: 0 })
       })
@@ -97,118 +95,53 @@ export default class DetailsView extends Component {
   actionCancelled() {
     console.log('cancelled choice')
   }
-// -------------------------------------
 
-// renderDetail = () => {
-//   return (
-//     <View>
-//       <Text style={styles.detailText}>For Sale Property Details</Text>
-//       <Text style={styles.subDetailText}>{this.props.detail}</Text>
-//     </View>
-//   )
-// }
-
-renderDescription = () => {
-  let listing = this.props.navigation.state.params.listing;
-  return (
-    <View>
-      <Text style={styles.descriptionText}>{listing.first_name + " " + listing.last_name}</Text>
-      <Text sstyle={styles.descriptionText}>{listing.street_address}</Text>         
-      <Text style={styles.descriptionText}>${listing.cost_per_hour} per hour</Text>
-      {this.state.reserved === 1 ? (<Button onPress={this.unreserveClicked} title='Cancel Reservation' />) : (<Button onPress={this.reserveClicked} title='Reserve Listing' />)}
-    </View>
-  )
-}
-
-// renderNavigator = () => {
-//   return (
-//     <View
-//       style={{
-//         flexDirection: 'row',
-//       }}
-//     >
-//       <TouchableOpacity style={[styles.navigatorButton, { flex: 2 }]}>
-//         <Text style={styles.navigatorText}>DIRECTIONS</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity style={[styles.navigatorButton, { flex: 2 }]}>
-//         <Text style={styles.navigatorText}>STREET VIEW</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity style={[styles.navigatorButton, { flex: 1 }]}>
-//         <Text style={styles.navigatorText}>MAP</Text>
-//       </TouchableOpacity>
-//     </View>
-//   )
-// }
-
-renderContactHeader = () => {
-  let listing = this.props.navigation.state.params.listing;
-  return (
-    <View style={styles.headerContainer}>
-      <View style={styles.coverContainer}>
-        <ImageBackground
-          source={{
-            uri: listing.parking_image_path === null ? 'https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png' : listing.parking_image_path
-          }}
-          style={styles.coverImage}
-        >
-        </ImageBackground>
+  renderDescription = () => {
+    let listing = this.props.navigation.state.params.listing;
+    return (
+      <View>
+        <Text style={styles.descriptionText}>{listing.first_name + " " + listing.last_name}</Text>
+        <Text sstyle={styles.descriptionText}>{listing.street_address}</Text>         
+        <Text style={styles.descriptionText}>${listing.cost_per_hour} per hour</Text>
+        {this.state.reserved === 1 ? (<Button onPress={this.unreserveClicked} title='Cancel Reservation' />) : (<Button onPress={this.reserveClicked} title='Reserve Listing' />)}
       </View>
-    </View>
-  )
-}
-
-render() {
-  return (
-    <View style={styles.mainviewStyle}>
-      <ScrollView style={styles.scroll}>
-        <View style={[styles.container, this.props.containerStyle]}>
-          <View style={styles.cardContainer}>
-            {this.renderContactHeader()}
-          </View>
+    )
+  }
+  renderContactHeader = () => {
+    let listing = this.props.navigation.state.params.listing;
+    return (
+      <View style={styles.headerContainer}>
+        <View style={styles.coverContainer}>
+          <ImageBackground
+            source={{
+              uri: listing.parking_image_path === null ? 'https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png' : listing.parking_image_path
+            }}
+            style={styles.coverImage}
+          >
+          </ImageBackground>
         </View>
-        <View style={styles.productRow}>{this.renderDescription()}</View>
-      </ScrollView>
-      <View style={styles.footerContainer}>
-        <FooterTabs active={4} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} />
       </View>
-    </View>
-  )
-}
-}
-//        <View style={styles.productRow}>{this.renderNavigator()}</View>
-// <View style={styles.productRow}>{this.renderDetail()}</View>
-// 
+    )
+  }
 
-/* 
-<View style={styles.footer}>
-        <TouchableOpacity style={styles.buttonFooter}>
-          <Text style={styles.textFooter}>CALL</Text>
-        </TouchableOpacity>
-        <View style={styles.borderCenter} />
-        <TouchableOpacity style={styles.buttonFooter}>
-          <Text style={styles.textFooter}>EMAIL</Text>
-        </TouchableOpacity>
+  render() {
+    return (
+      <View style={styles.mainviewStyle}>
+        <ScrollView style={styles.scroll}>
+          <View style={[styles.container, this.props.containerStyle]}>
+            <View style={styles.cardContainer}>
+              {this.renderContactHeader()}
+            </View>
+          </View>
+          <View style={styles.productRow}>{this.renderDescription()}</View>
+        </ScrollView>
+        <View style={styles.footerContainer}>
+          <FooterTabs active={4} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} />
+        </View>
       </View>
-      */
-// ----------------------------------
-//   render() {
-//     let listing = this.props.navigation.state.params.listing;
-//     return (
-//       <View style={styles.container}>
-//         <Image style={{ marginBottom: 20, width: Dimensions.get('window').width}} source={{ uri: listing.parking_image_path === null ? 'https://www.bristolgate.com/wp-content/uploads/2018/09/orionthemes-placeholder-image.png' : listing.parking_image_path }}></Image>
-//         <Text style={{ marginBottom: 10 }}>{listing.first_name + " " + listing.last_name}</Text>
-//         <Text style={{ marginBottom: 10 }}>{listing.street_address}</Text>
-//         <Text style={{ marginBottom: 10 }}>${listing.cost_per_hour} per hour</Text>
-//         {/* <Text style={{ marginBottom: 10 }}>{listing.description}</Text> */}
-//         {this.state.reserved === 1 ? (<Button onPress={this.unreserveClicked} title='Cancel Reservation' />) : (<Button onPress={this.reserveClicked} title='Reserve Listing' />)}
-
-//         <View style={styles.footerContainer}>
-//           <FooterTabs active={4} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} />
-//         </View>
-//       </View>
-//     );
-//   }
-// }
+    )
+  }
+}
 
 const styles = StyleSheet.create({
   container: {

@@ -1,14 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Alert, ActivityIndicator} from 'react-native';
-
-import { AppRegistry, TextInput } from 'react-native';
-
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
-
-import { Button } from 'react-native-elements';
-
-import FooterTabs from "./Footer";
+import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, 
+  Alert, ActivityIndicator, Image, AppRegistry, TextInput, Button } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage} from 'react-native-elements';
+import { ImagePicker, Permissions } from 'expo';
 import { TabHeading } from 'native-base';
+import FooterTabs from "./Footer";
+
 
 let images = [
   "https://s3.us-east-2.amazonaws.com/park-me/parking_spots/fake-images/how-to-fill-driveway-cracks.35.jpg",
@@ -26,10 +23,42 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { street_address: '', city: '', state: '', zip: '', description: '', cost_per_hour: '', submitting: false };
+    this.state = { 
+      street_address: '', 
+      city: '', 
+      state: '', 
+      zip: '',
+      image: null, 
+      description: '', 
+      cost_per_hour: '', 
+      submitting: false,
+      hideDefaultImage: false };
     this.submit = this.submit.bind(this);
     this.submitAlert = this.submitAlert.bind(this);
+    this.askPermissionsAsync = this.askPermissionsAsync.bind(this)
+    this._pickImage = this._pickImage.bind(this)
   }
+
+  componentDidMount() {
+    console.log("Component mounted")
+  }
+
+  askPermissionsAsync = async () => {
+    await Permissions.askAsync(Permissions.CAMERA);
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  };
+
+  _pickImage = async () => {
+    await this.askPermissionsAsync();
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      aspect: [4, 3],
+    });
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
 
   submitAlert() {
     Alert.alert(
@@ -48,9 +77,9 @@ export default class App extends React.Component {
 
   submit() {
     this.setState({submitting: true})
-    let { cost_per_hour, description, street_address, city, state, zip } = this.state;
+    let { cost_per_hour, description, street_address, city, state, zip, image } = this.state;
     let owner_id = 100;
-    let im_path = images[Math.floor(Math.random() * images.length)];
+    let im_path = image ? image : images[Math.floor(Math.random() * images.length)];
 
     fetch('http://3.16.22.45:3000/api/listing', {
       method: 'POST',
@@ -80,19 +109,26 @@ export default class App extends React.Component {
 
   render() {
 
-    const { street_address, city, state, zip, description, cost_per_hour } = this.state;
+    const { street_address, city, state, zip, image, description, cost_per_hour } = this.state;
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={this.state.submitting ? styles.submittingContainer : styles.hide}>
           <ActivityIndicator size="large" color="black" />
         </View>
-        <ScrollView>
+        <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
+          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 10 }} />}
+          <View style={{marginTop: 10}}>
+            <Button
+              title="Pick an image from camera roll"
+              onPress={this._pickImage}
+            />
+          </View>
+
           <FormLabel>Address</FormLabel>
           <FormInput
             onChangeText={(street_address) => this.setState({ street_address })}
             value={street_address}
-            autoFocus={true}
             onSubmitEditing={() => { this.cityInput.focus(); }} />
           {/* <FormValidationMessage>You must provide a valid address</FormValidationMessage> */}
 
@@ -139,7 +175,10 @@ export default class App extends React.Component {
             disabled={!street_address || !city || !state || !zip || !description || !cost_per_hour}
             title='Submit' />
         </ScrollView>
-        <View style={{ height: 40 }} />
+        <View style={{ height: 80 }} />
+        <View style={styles.footerContainer}>
+          <FooterTabs active={4} getListings={this.props.navigation.state.params.getListings} navigation={this.props.navigation} screenProps={this.props.screenProps}/>
+        </View>
       </KeyboardAvoidingView>
     );
   }
@@ -159,7 +198,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 25
+    marginTop: 0
   },
   submittingContainer: {
     position: 'absolute',
@@ -168,5 +207,10 @@ const styles = StyleSheet.create({
   },
   hide: {
     display: 'none'
+  },
+  footerContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: "100%"
   }
 });
