@@ -124,6 +124,7 @@ export default class App extends React.Component {
               onPress={this._pickImage}
             />
           </View>
+
           <FormLabel>Address</FormLabel>
           <FormInput
             onChangeText={(street_address) => this.setState({ street_address })}
