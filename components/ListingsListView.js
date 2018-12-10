@@ -32,7 +32,7 @@ export default class ListingListView extends Component {
       .then((response) => response.json())
       .then((jsonResponse) => {
         var reversedArray = jsonResponse.listings.slice().reverse();
-        var filteredArray = reversedArray.filter((listing) => listing.state === "FL")
+        var filteredArray = reversedArray.filter((listing) => true)
         filteredArray.unshift(jsonResponse.listings[jsonResponse.listings.length-1])
         this.setState({ listings: filteredArray, refreshing: false })
       }).catch((err) => {
