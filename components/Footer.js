@@ -16,7 +16,6 @@ export default class FooterTabs extends Component {
                         <Text>Add</Text>
                     </Button>
                     <Button badge vertical onPress={() => this.props.navigation.navigate("Account", {signOut: this.props.screenProps.signOut, user: this.props.screenProps.user})} active={this.props.active===3}>
-                        <Badge><Text>2</Text></Badge>
                         <Icon name="person" />
                         <Text>Account</Text>
                     </Button>
